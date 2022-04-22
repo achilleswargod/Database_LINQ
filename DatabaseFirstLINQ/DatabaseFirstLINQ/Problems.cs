@@ -16,8 +16,8 @@ namespace DatabaseFirstLINQ
         }
         public void RunLINQQueries()
         {
-            ProblemOne();
-            ProblemTwo();
+            //ProblemOne();
+            //ProblemTwo();
             //ProblemThree();
             ProblemFour();
             //ProblemFive();
@@ -76,7 +76,7 @@ namespace DatabaseFirstLINQ
             // Write a LINQ query that gets each product that contains an "s" in the products name.
             // Then print the name of each product from the above query to the console.
             
-            List<Product> productWithS = _context.Products.Where(p => p.Name == "s").Select(p => p.Name).ToList();
+            var productWithS = _context.Products.Where(p => p.Name).Contains('s').Select(p => p.Name).ToList();
 
 
         }
