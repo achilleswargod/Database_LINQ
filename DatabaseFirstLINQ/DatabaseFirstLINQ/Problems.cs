@@ -25,9 +25,9 @@ namespace DatabaseFirstLINQ
             ProblemSeven();
             ProblemEight();
             ProblemNine();
-            //ProblemTen();
+            ProblemTen();
             //ProblemEleven();
-            ProblemTwelve();
+            //ProblemTwelve();
             //ProblemThirteen();
             //ProblemFourteen();
             //ProblemFifteen();
@@ -159,13 +159,13 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that retreives all of the products in the shopping cart of users who have the role of "Employee".
             // Then print the user's email as well as the product's name, price, and quantity to the console.
-            var employeeUsers = _context.UserRoles.Include(ur => ur.Role).Include(ur => ur.User).Where(ur => ur.Role.Id == 2);
-            var employeeCart = _context.ShoppingCarts.Where(sc => sc.User.UserRoles == employeeUsers);
+            var employeeUsers = _context.UserRoles.Where(ur => ur.Role.RoleName == "Employee").Select(ur => ur.User.Id);
+            var employeeCart = _context.ShoppingCarts.Include(sc => sc.Product).Include(sc => sc.User).Where(sc => employeeUsers.Contains(sc.UserId));
 
 
-            foreach(ShoppingCart employee in employeeCart)
+            foreach(var item in employeeCart)
             {
-                Console.WriteLine($"Email: {employee.User.Email} "); 
+                Console.WriteLine($"Email: {item.User.Email} Item Name {item.Product.Name} Item price {item.Product.Price} Item Quantity {item.Quantity}");
             }
             
             
@@ -217,7 +217,16 @@ namespace DatabaseFirstLINQ
         private void ProblemFourteen()
         {
             // Add the product you create to the user we created in the ShoppingCart junction table using LINQ.
-
+            var productId = _context.Products.Where(p => p.Name == "Trampoline").Select(p => p.Id).SingleOrDefault();
+            var userId = _context.Users.Where(u => u.Email == "david@gmail.com").Select(u => u.Id).SingleOrDefault();
+            ShoppingCart newShoppingCart = new ShoppingCart()
+            {
+                UserId = userId,
+                ProductId = productId,
+            };
+            _context.ShoppingCarts.Add(newShoppingCart);
+            _context.SaveChanges();
+            
         }
 
         // <><> U Actions (Update) <><>
