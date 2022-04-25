@@ -91,8 +91,8 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that gets all of the users who registered BEFORE 2016
             // Then print each user's email and registration date to the console.
-            DateTime date = new DateTime(2016 - 01 - 01);
-            Console.WriteLine(date.ToString());
+            DateTime date = new DateTime(2016, 1, 1);
+            
 
             var users = _context.Users.Where(u => u.RegistrationDate <= date);
                 foreach (User user in users)
