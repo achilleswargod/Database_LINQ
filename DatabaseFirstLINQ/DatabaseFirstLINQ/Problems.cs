@@ -35,7 +35,7 @@ namespace DatabaseFirstLINQ
             //ProblemSeventeen();
             //ProblemEighteen();
             //ProblemNineteen();
-            //ProblemTwenty();
+            ProblemTwenty();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -243,7 +243,10 @@ namespace DatabaseFirstLINQ
         private void ProblemSixteen()
         {
             // Update the price of the product you created to something different using LINQ.
-
+            var product = _context.Products.Where(p => p.Name == "Trampoline").SingleOrDefault();
+            product.Price = 1500;
+            _context.Products.Update(product);
+            _context.SaveChanges();
         }
 
         private void ProblemSeventeen()
@@ -261,5 +264,74 @@ namespace DatabaseFirstLINQ
             _context.UserRoles.Add(newUserRole);
             _context.SaveChanges();
         }
+
+        // <><> D Actions (Delete) <><>
+
+        private void ProblemEighteen()
+        {
+            // Delete the role relationship from the user who has the email "oda@gmail.com" using LINQ.
+            var userRole = _context.UserRoles.Where(ur => ur.User.Email == "oda@gmail.com").SingleOrDefault();
+            _context.UserRoles.Remove(userRole);
+
+            _context.SaveChanges(); 
+        }
+
+        private void ProblemNineteen()
+        {
+            // Delete all of the product relationships to the user with the email "oda@gmail.com" in the ShoppingCart table using LINQ.
+            // HINT: Loop
+            var shoppingCartProducts = _context.ShoppingCarts.Where(sc => sc.User.Email == "oda@gmail.com");
+            foreach (ShoppingCart userProductRelationship in shoppingCartProducts)
+            {
+                _context.ShoppingCarts.Remove(userProductRelationship);
+            }
+            _context.SaveChanges();
+        }
+
+        private void ProblemTwenty()
+        {
+            // Delete the user with the email "oda@gmail.com" from the Users table using LINQ.
+            var users = _context.Users.Where(ur => ur.Email == "oda@gmail.com").SingleOrDefault();
+            _context.Users.Remove(users);
+            _context.SaveChanges();
+           
+            
+            
+            
+        }
+
+        // <><><><><><><><> BONUS PROBLEMS <><><><><><><><><>
+
+        private void BonusOne()
+        {
+            // Prompt the user to enter in an email and password through the console.
+            // Take the email and password and check if the there is a person that matches that combination.
+            // Print "Signed In!" to the console if they exists and the values match otherwise print "Invalid Email or Password.".
+        }
+
+        private void BonusTwo()
+        {
+            // Write a query that finds the total of every users shopping cart products using LINQ.
+            // Display the total of each users shopping cart as well as the total of the toals to the console.
+        }
+
+        // BIG ONE
+        private void BonusThree()
+        {
+            // 1. Create functionality for a user to sign in via the console
+            // 2. If the user succesfully signs in
+            // a. Give them a menu where they perform the following actions within the console
+            // View the products in their shopping cart
+            // View all products in the Products table
+            // Add a product to the shopping cart (incrementing quantity if that product is already in their shopping cart)
+            // Remove a product from their shopping cart
+            // 3. If the user does not succesfully sing in
+            // a. Display "Invalid Email or Password"
+            // b. Re-prompt the user for credentials
+
+        }
+
+    }
+}
     }
 }
