@@ -22,8 +22,8 @@ namespace DatabaseFirstLINQ
             ProblemFour();
             ProblemFive();
             ProblemSix();
-            //ProblemSeven();
-            //ProblemEight();
+            ProblemSeven();
+            ProblemEight();
             //ProblemNine();
             //ProblemTen();
             //ProblemEleven();
@@ -46,7 +46,6 @@ namespace DatabaseFirstLINQ
 
             List<User> usersCounted = _context.Users.ToList();
 
- 
             Console.WriteLine(usersCounted.Count());
             
         }
@@ -93,7 +92,6 @@ namespace DatabaseFirstLINQ
             // Then print each user's email and registration date to the console.
             DateTime date = new DateTime(2016, 1, 1);
             
-
             var users = _context.Users.Where(u => u.RegistrationDate <= date);
                 foreach (User user in users)
             {
@@ -108,8 +106,6 @@ namespace DatabaseFirstLINQ
             // Then print each user's email and registration date to the console.
             DateTime date1 = new DateTime(2016, 1, 1);
             DateTime date2 = new DateTime(2018, 1, 1);
-
-
 
             var users = _context.Users.Where(u => u.RegistrationDate >= date1 && u.RegistrationDate <= date2);
             foreach (User user in users)
@@ -136,7 +132,11 @@ namespace DatabaseFirstLINQ
         {
             // Write a LINQ query that retreives all of the products in the shopping cart of the user who has the email "afton@gmail.com".
             // Then print the product's name, price, and quantity to the console.
-
+            var productCart = _context.ShoppingCarts.Include(ur => ur.Product).Include(ur => ur.User).Where(ur => ur.User.Email == "afton@gmail.com");
+            foreach (ShoppingCart product in productCart)
+            {
+                Console.WriteLine($"Name: {product.Product.Name} Price: {product.Product.Price} Quantity: {product.Quantity}");
+            }
         }
 
         private void ProblemNine()
